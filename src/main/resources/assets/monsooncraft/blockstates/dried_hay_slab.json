@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "monsooncraft:block/dried_hay_slab"
+    },
+    "type=double": {
+      "model": "monsooncraft:block/dried_hay_block"
+    },
+    "type=top": {
+      "model": "monsooncraft:block/dried_hay_slab_top"
+    }
+  }
+}
