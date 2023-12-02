@@ -14,8 +14,8 @@ import net.minecraft.util.Identifier;
 import static dev.seeruk.monsooncraft.MonsooncraftMod.MOD_ID;
 
 public class Blocks {
-    public static final Block DRIED_HAY_BLOCK = new HayBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC).strength(0.5f).sounds(BlockSoundGroup.GRASS));
-    public static final Block DRIED_HAY_SLAB = new SlabBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC).strength(0.5f).sounds(BlockSoundGroup.GRASS));
+    public static final Block DRIED_HAY_BLOCK = new HayBlock(FabricBlockSettings.create().strength(0.5f).sounds(BlockSoundGroup.GRASS));
+    public static final Block DRIED_HAY_SLAB = new SlabBlock(FabricBlockSettings.create().strength(0.5f).sounds(BlockSoundGroup.GRASS));
     public static final Block DRIED_HAY_STAIRS = new StairsBlock(DRIED_HAY_BLOCK.getDefaultState(), AbstractBlock.Settings.copy(DRIED_HAY_BLOCK));
 
     public static void register() {

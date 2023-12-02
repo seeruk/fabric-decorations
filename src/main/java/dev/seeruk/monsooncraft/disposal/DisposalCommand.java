@@ -15,7 +15,7 @@ public class DisposalCommand {
                 if (source.getPlayer() != null) {
                     ServerPlayerEntity player = source.getPlayer();
 
-                    source.sendFeedback(Text.literal("Opening disposal..."), false);
+                    source.sendFeedback(() -> Text.literal("Opening disposal..."), false);
                     player.openHandledScreen(new DisposalScreenHandlerFactory());
                 }
 
