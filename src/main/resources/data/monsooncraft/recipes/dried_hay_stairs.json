@@ -1,17 +1,17 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "#  ",
-        "## ",
-        "###"
-    ],
-    "key": {
-        "#": {
-            "item": "monsooncraft:dried_hay_block"
-        }
-    },
-    "result": {
-        "item": "monsooncraft:dried_hay_stairs",
-        "count": 8
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "monsooncraft:dried_hay_block"
     }
+  },
+  "result": {
+    "item": "monsooncraft:dried_hay_stairs",
+    "count": 8
+  }
 }

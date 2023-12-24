@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "minecraft:block/dropper_front_vertical",
+    "side": "minecraft:block/furnace_side"
+  }
+}

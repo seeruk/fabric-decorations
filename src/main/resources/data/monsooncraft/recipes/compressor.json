@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#P#",
+    "SSS"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:cobblestone"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    },
+    "S": {
+      "item": "minecraft:smooth_stone"
+    }
+  },
+  "result": {
+    "item": "monsooncraft:compressor",
+    "count": 1
+  }
+}
