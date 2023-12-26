@@ -1,5 +1,7 @@
 {
   "block.monsooncraft.compressor": "Compressor",
+  "block.monsooncraft.compressor.2x2_mode": "2x2 mode",
+  "block.monsooncraft.compressor.3x3_mode": "3x3 mode",
   "block.monsooncraft.dried_hay_block": "Dried Hay Bale",
   "block.monsooncraft.dried_hay_slab": "Dried Hay Slab",
   "block.monsooncraft.dried_hay_stairs": "Dried Hay Stairs",

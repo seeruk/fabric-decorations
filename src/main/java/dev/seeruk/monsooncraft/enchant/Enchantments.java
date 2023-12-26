@@ -5,7 +5,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.registry.Registry;
 
-import static dev.seeruk.monsooncraft.MonsooncraftMod.MOD_ID;
+import static dev.seeruk.monsooncraft.MonsoonCraftMod.MOD_ID;
 
 public class Enchantments {
     public static final Enchantment ATTRACTION = new AttractionEnchantment();

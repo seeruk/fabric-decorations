@@ -1,6 +1,6 @@
 package dev.seeruk.monsooncraft.block;
 
-import dev.seeruk.monsooncraft.MonsooncraftMod;
+import dev.seeruk.monsooncraft.MonsoonCraftMod;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -15,17 +15,17 @@ import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
-import static dev.seeruk.monsooncraft.MonsooncraftMod.MOD_ID;
+import static dev.seeruk.monsooncraft.MonsoonCraftMod.MOD_ID;
 
 public class Blocks {
-    public static final Block COMPRESSOR_BLOCK = new CompressorBlock(FabricBlockSettings.create().mapColor(MapColor.STONE_GRAY).instrument(Instrument.BASEDRUM).requiresTool().strength(3.5f));
+    public static final Block COMPRESSOR_BLOCK = new CompressorBlock(FabricBlockSettings.create().mapColor(MapColor.STONE_GRAY).instrument(Instrument.BASEDRUM).requiresTool().strength(3.5f).nonOpaque());
     public static final Block DRIED_HAY_BLOCK = new HayBlock(FabricBlockSettings.create().strength(0.5f).sounds(BlockSoundGroup.GRASS));
     public static final Block DRIED_HAY_SLAB = new SlabBlock(FabricBlockSettings.create().strength(0.5f).sounds(BlockSoundGroup.GRASS));
     public static final Block DRIED_HAY_STAIRS = new StairsBlock(DRIED_HAY_BLOCK.getDefaultState(), AbstractBlock.Settings.copy(DRIED_HAY_BLOCK));
 
     public static final BlockEntityType<CompressorBlockEntity> COMPRESSOR_BLOCK_ENTITY = Registry.register(
         Registries.BLOCK_ENTITY_TYPE,
-        new Identifier(MonsooncraftMod.MOD_ID, "compressor"),
+        new Identifier(MonsoonCraftMod.MOD_ID, "compressor"),
         FabricBlockEntityTypeBuilder.create(CompressorBlockEntity::new, COMPRESSOR_BLOCK).build()
     );
 

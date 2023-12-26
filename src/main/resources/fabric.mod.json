@@ -16,7 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "dev.seeruk.monsooncraft.MonsooncraftMod"
+      "dev.seeruk.monsooncraft.MonsoonCraftMod"
+    ],
+    "client": [
+      "dev.seeruk.monsooncraft.MonsoonCraftClientMod"
     ]
   },
   "accessWidener": "monsooncraft.accesswidener",

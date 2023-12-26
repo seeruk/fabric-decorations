@@ -1,33 +1,73 @@
 package dev.seeruk.monsooncraft.block;
 
-import dev.seeruk.monsooncraft.MonsooncraftMod;
 import dev.seeruk.monsooncraft.inventory.SimpleRecipeInputInventory;
-import net.minecraft.block.BlockState;
+import dev.seeruk.monsooncraft.screen.CompressorBlockGuiDescription;
+import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.CraftingRecipe;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.PropertyDelegate;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class CompressorBlockEntity extends BlockEntity implements SidedInventory {
-    private static final int INPUT_SLOT = 0;
+public class CompressorBlockEntity extends BlockEntity implements InventoryProvider, NamedScreenHandlerFactory, PropertyDelegateHolder, SidedInventory {
+    public static final int INPUT_SLOT = 0;
 
-    private static final int OUTPUT_SLOT = 1;
+    public static final int OUTPUT_SLOT = 1;
+
+    public static final int MODE_3x3 = 0;
+
+    public static final int MODE_2x2 = 1;
+
+    public static final int MODE_PROPERTY = 0;
 
     protected DefaultedList<ItemStack> inventory;
 
     protected long compressCooldown;
+
+    protected int mode = 0;
+
+    private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
+        @Override
+        public int size() {
+            // This is how many properties you have. We have two of them, so we'll return 2.
+            return 1;
+        }
+
+        @Override
+        public int get(int index) {
+            // Each property has a unique index that you can choose.
+            // Our properties will be 0 for the progress and 1 for the maximum.
+
+            if (index == 0) {
+                return mode;
+            }
+
+            // Unknown property IDs will fall back to -1
+            return -1;
+        }
+
+        @Override
+        public void set(int index, int value) {}
+    };
 
     public CompressorBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(Blocks.COMPRESSOR_BLOCK_ENTITY, blockPos, blockState);
@@ -90,7 +130,7 @@ public class CompressorBlockEntity extends BlockEntity implements SidedInventory
 
     @Override
     public boolean canPlayerUse(PlayerEntity player) {
-        return false;
+        return true;
     }
 
     @Override
@@ -104,6 +144,7 @@ public class CompressorBlockEntity extends BlockEntity implements SidedInventory
         this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
         Inventories.readNbt(nbt, this.inventory);
         this.compressCooldown = nbt.getLong("CompressCooldown");
+        this.mode = nbt.getInt("CompressMode");
     }
 
     @Override
@@ -111,6 +152,7 @@ public class CompressorBlockEntity extends BlockEntity implements SidedInventory
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, this.inventory);
         nbt.putLong("CompressCooldown", this.compressCooldown);
+        nbt.putInt("CompressMode", this.mode);
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, CompressorBlockEntity blockEntity) {
@@ -124,7 +166,6 @@ public class CompressorBlockEntity extends BlockEntity implements SidedInventory
     private static void tryCraft(CompressorBlockEntity blockEntity) {
         var inputStack = blockEntity.inventory.get(INPUT_SLOT);
         if (inputStack == null) {
-            MonsooncraftMod.LOGGER.info("can't craft because input is empty, or not the right size");
             return; // Silently fail...
         }
 
@@ -136,7 +177,6 @@ public class CompressorBlockEntity extends BlockEntity implements SidedInventory
             var result = recipe.craft(inventory, blockEntity.world.getRegistryManager());
 
             if (result.isEmpty()) {
-                MonsooncraftMod.LOGGER.info("result of craft was empty");
                 return; // Nothing to do...
             }
 
@@ -153,32 +193,22 @@ public class CompressorBlockEntity extends BlockEntity implements SidedInventory
                 blockEntity.inventory.set(OUTPUT_SLOT, outputStack.copyWithCount(outputStack.getCount() + result.getCount()));
                 blockEntity.inventory.get(INPUT_SLOT).decrement(inventory.stacks.size());
             }
-        } else {
-            MonsooncraftMod.LOGGER.info("no recipe found");
+
+            blockEntity.setCompressCooldown(8);
         }
     }
 
     private static Optional<Pair<CraftingRecipe, SimpleRecipeInputInventory>> tryGetRecipe(CompressorBlockEntity blockEntity) {
-        // TODO: We can refactor this later...
-        if (blockEntity.inventory.get(INPUT_SLOT).getCount() >= 4) {
-            var inventory = blockEntity.createFilledInventoryOf(blockEntity.inventory.get(INPUT_SLOT), 4);
+        var size = blockEntity.mode == MODE_2x2 ? 4 : 9;
+
+        if (blockEntity.inventory.get(INPUT_SLOT).getCount() >= size) {
+            var inventory = blockEntity.createFilledInventoryOf(blockEntity.inventory.get(INPUT_SLOT), size);
             var recipe = blockEntity.world.getRecipeManager().getFirstMatch(RecipeType.CRAFTING, inventory, blockEntity.world);
             if (!recipe.isEmpty()) {
-                MonsooncraftMod.LOGGER.info("found recipe with 4 slots");
                 return Optional.of(new Pair(recipe.get(), inventory));
             }
         }
 
-        if (blockEntity.inventory.get(INPUT_SLOT).getCount() >= 9) {
-            var inventory = blockEntity.createFilledInventoryOf(blockEntity.inventory.get(INPUT_SLOT), 9);
-            var recipe = blockEntity.world.getRecipeManager().getFirstMatch(RecipeType.CRAFTING, inventory, blockEntity.world);
-            if (!recipe.isEmpty()) {
-                MonsooncraftMod.LOGGER.info("found recipe with 9 slots");
-                return Optional.of(new Pair(recipe.get(), inventory));
-            }
-        }
-
-        MonsooncraftMod.LOGGER.info("no recipe found at all");
         return Optional.empty();
     }
 
@@ -196,6 +226,37 @@ public class CompressorBlockEntity extends BlockEntity implements SidedInventory
 
     private boolean needsCooldown() {
         return this.compressCooldown > 0;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
+        if (this.mode < 0) {
+            this.mode = 0;
+        }
+        if (this.mode > 1) {
+            this.mode = 1;
+        }
+    }
+
+    @Override
+    public SidedInventory getInventory(BlockState state, WorldAccess world, BlockPos pos) {
+        return this;
+    }
+
+    @Override
+    public PropertyDelegate getPropertyDelegate() {
+        return propertyDelegate;
+    }
+
+    @Override
+    public Text getDisplayName() {
+        return Text.translatable(getCachedState().getBlock().getTranslationKey());
+    }
+
+    @Nullable
+    @Override
+    public ScreenHandler createMenu(int syncId, PlayerInventory inventory, PlayerEntity player) {
+        return new CompressorBlockGuiDescription(syncId, inventory, ScreenHandlerContext.create(world, pos));
     }
 }
 

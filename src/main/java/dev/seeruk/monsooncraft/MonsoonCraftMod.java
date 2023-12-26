@@ -3,11 +3,12 @@ package dev.seeruk.monsooncraft;
 import dev.seeruk.monsooncraft.block.Blocks;
 import dev.seeruk.monsooncraft.disposal.DisposalCommand;
 import dev.seeruk.monsooncraft.enchant.Enchantments;
+import dev.seeruk.monsooncraft.screen.Screens;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MonsooncraftMod implements ModInitializer {
+public class MonsoonCraftMod implements ModInitializer {
 	public static final String MOD_ID = "monsooncraft";
 
 	// This logger is used to write text to the console and the log file.
@@ -26,5 +27,6 @@ public class MonsooncraftMod implements ModInitializer {
 		Blocks.register();
 		DisposalCommand.register();
 		Enchantments.register();
+		Screens.register();
 	}
 }
