@@ -7,6 +7,7 @@ import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.data.HorizontalAlignment;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
+import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -20,15 +21,15 @@ public class CompressorBlockGuiDescription extends SyncedGuiDescription {
         root.setInsets(Insets.ROOT_PANEL);
 
         var inputSlot = WItemSlot.of(blockInventory, CompressorBlockEntity.INPUT_SLOT);
-        root.add(inputSlot, 3, 1);
+        root.add(inputSlot, 3, 2);
 
         var outputSlot = WItemSlot.of(blockInventory, CompressorBlockEntity.OUTPUT_SLOT);
-        root.add(outputSlot, 5, 1);
+        root.add(outputSlot, 5, 2);
 
         var modeLabel = getDynamicLabel();
-        root.add(modeLabel, 6, 0, 3, 1);
+        root.add(modeLabel, 3, 1, 3, 1);
 
-        root.add(this.createPlayerInventoryPanel(), 0, 3);
+        root.add(this.createPlayerInventoryPanel(), 0, 4);
 
         // Finalise
         setRootPanel(root);
@@ -51,7 +52,7 @@ public class CompressorBlockGuiDescription extends SyncedGuiDescription {
             return "?x?"; // Should not happen!?
         });
 
-        modeLabel.setAlignment(HorizontalAlignment.RIGHT);
+        modeLabel.setAlignment(HorizontalAlignment.CENTER);
 
         return modeLabel;
     }
