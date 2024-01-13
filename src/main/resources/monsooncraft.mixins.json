@@ -4,7 +4,11 @@
   "package": "dev.seeruk.monsooncraft.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "BlockMixin"
+    "AxeItemMixin",
+    "BlockMixin",
+    "FenceBlockMixin",
+    "PickaxeItemMixin",
+    "WallBlockMixin"
   ],
   "client": [
   ],

@@ -2,6 +2,7 @@
 
 .gradle/
 build/
+libs/
 out/
 classes/
 
@@ -38,3 +39,5 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+
+secrets.properties
