@@ -3,9 +3,6 @@ plugins {
 	id 'maven-publish'
 }
 
-def secrets = new Properties()
-file("secrets.properties").withInputStream { secrets.load(it) }
-
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
@@ -23,14 +20,6 @@ repositories {
 		name = "CottonMC"
 		url = "https://server.bbkr.space/artifactory/libs-release"
 	}
-	maven {
-		name = "seeruk lib-gui"
-		url = "https://maven.pkg.github.com/seeruk/lib-gui"
-		credentials {
-			username = secrets.getProperty("gpr.actor") ?: System.getenv("USERNAME")
-			password = secrets.getProperty("gpr.token") ?: System.getenv("TOKEN")
-		}
-	}
 }
 
 dependencies {
@@ -44,7 +33,7 @@ dependencies {
 
 	include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.2.2")))
 
-	modImplementation include("io.github.cottonmc:lib-gui:${project.lib_gui_version}")
+	modImplementation include("io.github.cottonmc:LibGui:${project.lib_gui_version}")
 
 	// Uncomment the following line to enable the deprecated Fabric API modules.
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
