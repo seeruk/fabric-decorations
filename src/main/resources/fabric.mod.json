@@ -24,7 +24,8 @@
   },
   "accessWidener": "monsooncraft.accesswidener",
   "mixins": [
-    "monsooncraft.mixins.json"
+    "monsooncraft.mixins.json",
+    "tegg.mixins.json"
   ],
 
   "depends": {

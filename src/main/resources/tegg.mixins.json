@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.seeruk.monsooncraft.tegg.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "DragonEggMixin",
+    "ItemEntityMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

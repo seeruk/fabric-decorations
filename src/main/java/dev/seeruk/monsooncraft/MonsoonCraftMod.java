@@ -4,6 +4,7 @@ import dev.seeruk.monsooncraft.block.Blocks;
 import dev.seeruk.monsooncraft.disposal.DisposalCommand;
 import dev.seeruk.monsooncraft.enchant.Enchantments;
 import dev.seeruk.monsooncraft.screen.Screens;
+import dev.seeruk.monsooncraft.tegg.TeggGame;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,5 +29,7 @@ public class MonsoonCraftMod implements ModInitializer {
 		DisposalCommand.register();
 		Enchantments.register();
 		Screens.register();
+
+		TeggGame.initialise();
 	}
 }
